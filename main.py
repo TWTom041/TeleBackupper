@@ -1,5 +1,7 @@
 """
 Upload given path to telegram.
+TODO:
+Implement an FS
 """
 import subprocess
 import hashlib
@@ -14,6 +16,9 @@ from Crypto import Random  # pycryptodome
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 import fsspec
+import fsspec.implementations
+import fsspec.implementations.memory
+from morefs.dict import DictFS
 from telethon import TelegramClient
 
 CONFIG_PATH = "config.json"
@@ -55,7 +60,7 @@ class TelegramBackupper:
         self.client = TelegramClient(self.config["session_name"], self.config["api_id"], self.config["api_hash"])
         self.client.start(bot_token=self.config["bot_token"])
         self.cipher = AESCipher(self.config["file_encryption_key"])
-        self.fs = fsspec.filesystem("memory")
+        self.fs = DictFS()
         self.max_file_size = int(self.config["file_chunk_size"])  # 1GB
 
     def upload_to_telegram(self, data: bytes, name: str):
@@ -93,12 +98,14 @@ class TelegramBackupper:
         os.makedirs(self.config["save_folder"], exist_ok=True)
         with open(os.path.join(self.config["save_folder"], "fs"), "wb") as f:
             print(self.fs.ls("/"))
-            pickle.dump(self.fs, f)  # TODO: fix this
+            pickle.dump(self.fs.store, f)  # TODO: fix this
         with open(os.path.join(self.config["save_folder"], "config.json"), "w") as f:
             json.dump(self.config, f)
     
     def restore(self):
-        pass
+        fs = DictFS()     
+        with open("save/fs", "rb") as f:
+            fs.store = pickle.load(f)
 
 
 
