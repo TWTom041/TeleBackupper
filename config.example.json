@@ -1,0 +1,11 @@
+{
+    "session_name": "AutoBackupper",
+    "api_id": "app_id", 
+    "api_hash": "api_hash",
+    "bot_token": "bot_token",
+    "send_to_entity_id": -12345678,
+    "backup_path": "/path/to/what/you/want/to/be/backuped",
+    "save_folder": "/path/for/restoration/data",
+    "file_encryption_key": "v3rysecurep@ssw0rd",
+    "file_chunk_size": 1073741824
+}
