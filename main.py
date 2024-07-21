@@ -15,9 +15,6 @@ import pickle
 from Crypto import Random  # pycryptodome
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
-import fsspec
-import fsspec.implementations
-import fsspec.implementations.memory
 from morefs.dict import DictFS
 from telethon import TelegramClient
 
