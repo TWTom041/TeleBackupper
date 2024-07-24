@@ -100,9 +100,8 @@ class TelegramBackupper:
             json.dump(self.config, f)
     
     def restore(self):
-        fs = DictFS()     
         with open("save/fs", "rb") as f:
-            fs.store = pickle.load(f)
+            self.fs.store = pickle.load(f)
 
 
 
